@@ -12,8 +12,8 @@ import readline from 'readline';
 
 export default async (options) => {
   const {
-    renderSelected = line => chalk.green(`❯ ${line}`),
-    renderUnselected = line => `  ${line}`,
+    renderSelected = choice => chalk.green(`❯ ${choice.name} (${choice.key})`),
+    renderUnselected = choice => `  ${choice.name} (${choice.key})`,
     hideCursor = true
   } = options;
 
@@ -67,12 +67,11 @@ export default async (options) => {
 
     const renderedChoices = choices
       .map((choice, i) => {
-        const line = `  ${choice.name}`;
         if (i === index) {
-          return renderSelected(line, index);
+          return renderSelected(choice, index);
         }
 
-        return renderUnselected(line, i);
+        return renderUnselected(choice, i);
       })
       .join('\n');
 
