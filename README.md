@@ -27,6 +27,8 @@ import prompt from 'inquirer-interactive-list-prompt';
       { name: 'Run', value: 'run', key: 'r' },
       { name: 'Quit', value: 'quit', key: 'q' },
     ],
+    renderSelected: line => chalk.green(`❯ ${line}`), // optional
+    renderUnselected: line => `  ${line}`, // optional
   });
 
   console.log(`Selected option: ${answer}`);
