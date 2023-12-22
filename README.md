@@ -24,9 +24,8 @@ import prompt from 'inquirer-interactive-list-prompt';
   const answer = await prompt({
     message: 'Select an option:',
     choices: [
-      { name: 'Option 1', value: 'option1' },
-      { name: 'Option 2', value: 'option2' },
-      { name: 'Option 3', value: 'option3' },
+      { name: 'Run', value: 'run', key: 'r' },
+      { name: 'Quit', value: 'quit', key: 'q' },
     ],
   });
 
