@@ -1,11 +1,11 @@
 {
   "name": "inquirer-interactive-list-prompt",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Interactive list prompt implementation for Inquirer.js",
   "module": "index.mjs",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pgibler/inquirer-interactive-list-prompt.git"
+    "url": "git+https://github.com/pgibler/inquirer-interactive-list-prompt.git"
   },
   "author": "Paul Gibler <paul.gibler@gmail.com>",
   "license": "MIT",
