@@ -1,6 +1,6 @@
 {
   "name": "inquirer-interactive-list-prompt",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Interactive list prompt implementation for Inquirer.js",
   "main": "index.mjs",
   "repository": {
