@@ -5,7 +5,7 @@ An interactive list prompt implementation for [Inquirer](https://github.com/SBou
 You can select a choice by using the arrow keys + Enter or by pressing the key associated with the choice.
 ```javascript
 ? Choose an option:
->   Run command (D)
+>   Run command (R)
     Quit (Q)
 ```
 
