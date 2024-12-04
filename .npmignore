@@ -1,3 +1,4 @@
 # Files to exclude from the package
 node_modules/
 *.md
+playground.mjs
