@@ -7,13 +7,28 @@ import {
   isUpKey,
   isDownKey,
 } from '@inquirer/core';
-import chalk from 'chalk';
 import readline from 'readline';
+import chalk from 'chalk';
 
-export default async (options) => {
+export type Choice = {
+  key: string;
+  name: string;
+  value: string;
+};
+
+export type Config = {
+  message: string;
+  choices: Array<Choice>;
+  default?: string;
+  renderSelected?: (choice: Choice, index: number) => string;
+  renderUnselected?: (choice: Choice, index: number) => string;
+  hideCursor?: boolean;
+};
+
+export default async (options: Config) => {
   const {
-    renderSelected = choice => chalk.green(`❯ ${choice.name} (${choice.key})`),
-    renderUnselected = choice => `  ${choice.name} (${choice.key})`,
+    renderSelected = (choice: Choice) => chalk.green(`❯ ${choice.name} (${choice.key})`),
+    renderUnselected = (choice: Choice) => `  ${choice.name} (${choice.key})`,
     hideCursor = true
   } = options;
 
@@ -24,13 +39,14 @@ export default async (options) => {
       output: process.stdout
     });
 
+    // @ts-expect-error `output` is not documented in inquirer's types
     rl.output.write('\x1B[?25l'); // Hide cursor
   }
 
-  const answer = await createPrompt((config, done) => {
+  const answer = await createPrompt<string, Config>((config, done) => {
     const { choices, default: defaultKey } = config;
     const [status, setStatus] = useState('pending');
-    const [index, setIndex] = useState(choices.findIndex((choice) => choice.value === defaultKey ?? ''));
+    const [index, setIndex] = useState(choices.findIndex((choice) => choice.value === (defaultKey ?? '')));
     const prefix = usePrefix();
 
     useKeypress((key, _rl) => {
@@ -54,7 +70,7 @@ export default async (options) => {
           setIndex(foundIndex);
           // This automatically finishes the prompt. Remove this if you don't want that.
           setStatus('done');
-          done(choices[foundIndex].value);
+          done(choices[foundIndex]?.value ?? '');
         }
       }
     })
@@ -62,7 +78,7 @@ export default async (options) => {
     const message = chalk.bold(config.message);
 
     if (status === 'done') {
-      return `${prefix} ${message} ${chalk.cyan(choices[index].name)}`;
+      return `${prefix} ${message} ${chalk.cyan(choices[index]?.name ?? '')}`;
     }
 
     const renderedChoices = choices
@@ -78,7 +94,8 @@ export default async (options) => {
     return [`${prefix} ${message}`, renderedChoices];
   })(options);
 
-  if (hideCursor) {
+  if (hideCursor && rl) {
+    // @ts-expect-error `output` is not documented in inquirer's types
     rl.output.write('\x1B[?25h'); // Show cursor
 
     rl.close();
